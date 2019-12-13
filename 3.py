@@ -1,51 +1,62 @@
 
 import math
-
+file = open("3.txt","rt")
+#path = file.read()
 path = "R8,U5,L5,D3 U7,R6,D4,L4"
 paths = path.split(" ")
 path1 = paths[0].split(",")
 path2 = paths[1].split(",")
-w, h = 11, 10;
-Matrix = [[0 for x in range(w)] for y in range(h)]
-startX = 1
-startY = 1
-newStartX = 1
-newStartY = 1
-Matrix[startX][startY] = 3
+startValue = 1
+vector = set()
+vectorCheck = set()
+vectorInter = set()
 
+def insertPath(path,vector):
+    x,y=1,1
+    for z in path:
+        if(z[0] == "R"):
+            for i in range(0,int(z[1:len(z)])):
+                vector.add((x,y))
+                x+=1
 
-def move(dir):
-    if dir[0] == "R":
-        global startX,newStartX,startY,newStartY
-        for x in range(startX, int(dir[1:len(dir)])):
-            Matrix[startY][startX+x] = 1
-            newStartX+=1
-        else:
-            startX = newStartX
-    elif dir[0] == "U":
-        for x in range(startY,int(dir[1:len(dir)])):
-            Matrix[startY+x][startX] = 1
-            newStartY+=1
-        else:
-            startY = newStartY
-    elif dir[0] == "L":
-        for x in range(startX, int(dir[1:len(dir)])):
-            Matrix[startY][startX-x] = 1
-            newStartX-=1
-        else:
-            startX = newStartX
+        elif(z[0] == "L"):
+            for i in range(0,int(z[1:len(z)])):
+                vector.add((x,y))
+                x-=1
 
+        elif(z[0] == "U"):
+            for i in range(0,int(z[1:len(z)])):
+                vector.add((x,y))
+                y+=1
 
+        elif(z[0] == "D"):
+            for i in range(0,int(z[1:len(z)])):
+                vector.add((x,y))
+                y-=1
 
 def manhattan(x,y):
-    print(x," ",y)
-    d = (abs(x-500)) + (abs(y-500))
+    d = (abs(x-startValue)) + (abs(y-startValue))
     return d
 
-move("R8")
-move("U5")
-print(startX," ",startY)
-move("L5")
+def checkForInter(vectorCheck,vector):
+    for cords in vectorCheck:
+        if cords in vector:
+            if(cords != (startValue,startValue)):
+                vectorInter.add(cords)
 
-for x in range(len(Matrix)-1, -1, -1):
-    print(Matrix[x])
+def findMinDistance(vectorInter):
+    dist = 0
+    for x in vectorInter:
+        temp = manhattan(x[0],x[1])
+        if temp < dist:
+            dist = temp
+        elif dist == 0:
+            dist = temp
+    else:
+        return dist
+
+insertPath(path1,vector)
+insertPath(path2,vectorCheck)
+checkForInter(vectorCheck,vector)
+
+print(findMinDistance(vectorInter))
