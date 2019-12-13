@@ -2,7 +2,6 @@
 import math
 file = open("3.txt","rt")
 path = file.read()
-#path = "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51 U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
 paths = path.split(" ")
 path1 = paths[0].split(",")
 path2 = paths[1].split(",")
@@ -77,8 +76,6 @@ def findMinDistance(vectorInter):
         return dist
 
 def findMinSteps(vectorInter):
-    p1Steps = 0
-    p2Steps = 0
     totalSteps = 0
     for x in vectorInter:
         p1Steps = 0
