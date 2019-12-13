@@ -12,7 +12,7 @@ vectorCheck = set()
 vectorInter = set()
 
 def insertPath(path,vector):
-    x,y=1,1
+    x,y=startValue,startValue
     for z in path:
         if(z[0] == "R"):
             for i in range(0,int(z[1:len(z)])):
@@ -34,10 +34,6 @@ def insertPath(path,vector):
                 vector.add((x,y))
                 y-=1
 
-def manhattan(x,y):
-    d = (abs(x-startValue)) + (abs(y-startValue))
-    return d
-
 def checkForInter(vectorCheck,vector):
     for cords in vectorCheck:
         if cords in vector:
@@ -45,18 +41,17 @@ def checkForInter(vectorCheck,vector):
                 vectorInter.add(cords)
 
 def findMinDistance(vectorInter):
+    insertPath(path1,vector)
+    insertPath(path2,vectorCheck)
+    checkForInter(vectorCheck,vector)
     dist = 0
     for x in vectorInter:
-        temp = manhattan(x[0],x[1])
+        temp = (abs(x[0]-startValue)) + (abs(x[1]-startValue))
         if temp < dist:
             dist = temp
         elif dist == 0:
             dist = temp
     else:
         return dist
-
-insertPath(path1,vector)
-insertPath(path2,vectorCheck)
-checkForInter(vectorCheck,vector)
 
 print(findMinDistance(vectorInter))
